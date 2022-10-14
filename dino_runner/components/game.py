@@ -57,7 +57,7 @@ class Game:
     def update_score(self):
         self.score += 1
         if self.score % 100 == 0:
-            self.game_speed += 5
+            self.game_speed += 4
 
     def draw(self):
         self.clock.tick(FPS)
@@ -91,6 +91,8 @@ class Game:
                 self.playing = False
                 self.running = False
             elif event.type == pygame.KEYDOWN:
+                self.score = 0
+                self.game_speed = 15
                 self.run()
 
     def show_menu(self):
@@ -104,12 +106,22 @@ class Game:
             text_rect = text.get_rect()
             text_rect.center = (half_screen_width, half_screen_height)
             self.screen.blit(text, text_rect)
+        elif self.death_count > 0:
+            font = pygame.font.Font(FONT_STYLE, 22)
+            text = font.render("Press any key to restart", True, (0, 0, 0))
+            text_rect = text.get_rect()
+            text_rect.center = (half_screen_width, half_screen_height)
+            self.screen.blit(text, text_rect)
+            text = font.render("Your Score: " + str(self.score), True, (0, 0, 0))
+            text_rect = text.get_rect()
+            text_rect.center = (550, 90)
+            self.screen.blit(text, text_rect) 
+            text = font.render("Missed Times: " + str(self.death_count) , True, (0, 0, 0))
+            text_rect = text.get_rect()
+            text_rect.center = (550, 40)
+            self.screen.blit(text, text_rect)
         else:
-            # "Press any key to restart"
-            # Score atingido
-            # Contador de vidas perdidas atingido
-            # Resetar a contagem de: prontuação e velocidade
-            ## **Criar uma forma de não repetir a formatação do texto**
+            
             self.screen.blit(ICON, (half_screen_width - 20, half_screen_height - 140))
 
         pygame.display.flip()
