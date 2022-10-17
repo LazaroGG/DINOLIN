@@ -3,6 +3,8 @@ import random
 
 from dino_runner.components.obstacles.cactus import Cactus
 from dino_runner.components.obstacles.bird import Bird
+from dino_runner.utils.constants import DT_SOUND
+from pygame import mixer
 
 
 class ObstacleManager:
@@ -25,6 +27,7 @@ class ObstacleManager:
                     pygame.time.delay(500)
                     game.playing = False
                     game.death_count += 1
+                    self.DeathSound()
                     break
                 else:
                     self.obstacles.remove(obstacle)
@@ -35,3 +38,8 @@ class ObstacleManager:
     def draw(self, screen):
         for obstacle in self.obstacles:
             obstacle.draw(screen)
+
+    def DeathSound(self):
+        pygame.mixer.music.load(DT_SOUND)
+        pygame.mixer.music.set_volume(15)
+        pygame.mixer.music.play()
